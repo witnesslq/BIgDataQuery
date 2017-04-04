@@ -26,11 +26,13 @@
                 /app/** = anon
                 /assets/** = anon
                 <!-- 登录页允许访问 -->
-                /rest/user/login = anon
-                <!-- 用户退出 -->
-                /rest/user/logout = logout
+                /user/doLogin = anon
+                <!-- 用户退出
+                /user/logout = logout
+                 -->
                 <!-- 其他资源需要认证 -->
                 /** = anon
+                <!--/** = authc  -->
             </value>
         </property>
     </bean>
@@ -54,8 +56,8 @@
         <constructor-arg value="sid"/>
         <property name="httpOnly" value="true"/>
         <property name="maxAge" value="-1"/>
-        <!-- cookie的有效域 -->
-        <!-- <property name="domain" value="com.xxx.xxx"/> -->
+        <!-- cookie的有效域 
+        <property name="domain" value="192.168.31.74"/>-->
     </bean>
 
     <!-- 会话DAO -->
@@ -65,17 +67,20 @@
     </bean>
 
 	<!-- 会话验证调度器 -->
-    <bean id="sessionValidationScheduler" class="org.apache.shiro.session.mgt.quartz.QuartzSessionValidationScheduler">
+    <bean id="sessionValidationScheduler" class="cn.edu.bupt.springmvc.core.feature.shiro.QuartzSessionValidationScheduler2">
         <property name="sessionValidationInterval" value="1800000"/>
         <property name="sessionManager" ref="sessionManager"/>
     </bean>
     
     <!-- 会话管理器 -->
+    
     <bean id="sessionManager" class="org.apache.shiro.web.session.mgt.DefaultWebSessionManager">
         <property name="globalSessionTimeout" value="1800000"/>
         <property name="deleteInvalidSessions" value="true"/>
+        <!-- 
         <property name="sessionValidationSchedulerEnabled" value="true"/>
         <property name="sessionValidationScheduler" ref="sessionValidationScheduler"/>
+        -->
         <property name="sessionDAO" ref="sessionDAO"/>
         <property name="sessionIdCookieEnabled" value="true"/>
         <property name="sessionIdCookie" ref="sessionIdCookie"/>
@@ -102,7 +107,23 @@
         <property name="cookie" ref="rememberMeCookie"/>
     </bean>
     
-    
+    <!-- 凭证匹配器 -->
+    <bean id="credentialsMatcher" class="org.apache.shiro.authc.credential.HashedCredentialsMatcher">
+        <!--<constructor-arg ref="cacheManager"/>-->
+        <property name="hashAlgorithmName" value="md5"/>
+        <property name="hashIterations" value="2"/>
+        <property name="storedCredentialsHexEncoded" value="true"/>
+    </bean>
+     
+    <bean id="userRealm" class="cn.edu.bupt.springmvc.web.realm.UserRealm">
+        
+        <property name="credentialsMatcher" ref="credentialsMatcher"/>
+        <property name="cachingEnabled" value="false"/>
+        <!--<property name="authenticationCachingEnabled" value="true"/>-->
+        <!--<property name="authenticationCacheName" value="authenticationCache"/>-->
+        <!--<property name="authorizationCachingEnabled" value="true"/>-->
+        <!--<property name="authorizationCacheName" value="authorizationCache"/>-->
+    </bean>
     
     
     <!-- 安全管理器 -->
@@ -112,15 +133,18 @@
     <bean id="securityManager" class="org.apache.shiro.web.mgt.DefaultWebSecurityManager">
         <property name="realms">
             <list>
-                <ref bean="securityRealm"/>
+                <ref bean="userRealm"/>
             </list>
         </property>
         <!-- cacheManager,集合spring缓存工厂 -->
         <property name="cacheManager" ref="shiroEhcacheManager" />
-        <!-- 会话管理器 -->
+        <!-- 会话管理器 
         <property name="sessionManager" ref="sessionManager" /> 
-        <!-- rememberMe管理器 -->
+        -->
+        <!-- rememberMe管理器
         <property name="rememberMeManager" ref="rememberMeManager"></property>
+         -->
+        
     </bean>
 
 	<!-- 相当于调用SecurityUtils.setSecurityManager(securityManager) -->

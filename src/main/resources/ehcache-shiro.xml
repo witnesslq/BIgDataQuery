@@ -1,4 +1,4 @@
-<ehcache updateCheck="false" name="shiroCache">
+<ehcache updateCheck="true" name="shiroCache">
 
     <defaultCache
             maxElementsInMemory="10000"

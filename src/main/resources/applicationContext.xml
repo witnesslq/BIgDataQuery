@@ -27,6 +27,7 @@
         </property>
     </bean>
 
+	
     <!-- dataSource 配置 -->
     <bean id="dataSource" class="com.alibaba.druid.pool.DruidDataSource" init-method="init" destroy-method="close">
         <!-- 基本属性 url、user、password -->
@@ -120,5 +121,78 @@
           p:configLocation="classpath:ehcache.xml"/>
     <bean id="cacheManager" class="org.springframework.cache.ehcache.EhCacheCacheManager"
           p:cacheManager-ref="ehCacheManagerFactory"/>
-
+	
+	<!-- quartz任务调度器配置 -->
+	<!-- 集成方式：JobDetailFactoryBean，并且任务类需要继承QuartzJobBean-->
+    <!-- 定义jobDetail -->
+    <bean id="jobDetail" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <!-- durability 表示任务完成之后是否依然保留到数据库，默认false   -->
+        <property name="durability" value="true" />  
+        <!--     目标类  /wmuitp/src/test/SpringQuartz.java-->
+        <property name="jobClass" value="cn.edu.bupt.springmvc.web.quartz.TaskJob"></property>
+        
+           <!--  在这个例子中，jobDataAsMap没有用，此目标类中接受的参数 ,若参数为service，则可以在此进行参数配置，类似struts2 -->
+           <!--
+        <property name="jobDataAsMap">  
+            <map>  
+                <entry key="service"><value>simple is the beat</value></entry>  
+            </map>  
+        </property>
+            -->
+    </bean>
+    
+    <bean id="jobDatabase" class="org.springframework.scheduling.quartz.JobDetailFactoryBean">
+        <!-- durability 表示任务完成之后是否依然保留到数据库，默认false   -->
+        <property name="durability" value="true" />  
+        <!--     目标类  /wmuitp/src/test/SpringQuartz.java-->
+        <property name="jobClass" value="cn.edu.bupt.springmvc.web.quartz.TaskDatabase"></property>
+        <property name="jobDataAsMap">  
+            <map>  
+                <entry key="quartzService" value-ref="quartzService"></entry>  
+            </map>  
+        </property>
+    </bean>
+    <!-- 定义simpleTrigger触发器 -->
+    <!--     
+    <bean id="simpleTrigger" class="org.springframework.scheduling.quartz.SimpleTriggerBean">
+        <property name="jobDetail" ref="jobDetail"></property>
+        <property name="repeatCount">
+            <value>8</value>
+        </property>
+        <property name="repeatInterval">
+            <value>1000</value>
+        </property>
+        <property name="startDelay">
+            <value>4</value>
+        </property>
+    </bean> 
+    -->
+    
+    <!-- 另一种触发器是CornTrigger -->
+     <bean id="cornTriggerTest1" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+       <property name="jobDetail" ref="jobDetail"/>
+       <!-- 每天6点触发 -->
+       <property name="cronExpression" value="0 0 6 * * ?"/>
+    </bean> 
+    
+    <bean id="cornTriggerTest2" class="org.springframework.scheduling.quartz.CronTriggerFactoryBean">
+       <property name="jobDetail" ref="jobDatabase"/>
+       <!-- 每分钟触发 -->
+       <property name="cronExpression" value="0 0 6 * * ?"/>
+       <!-- <property name="cronExpression" value="0 */1 * * * ?"/> -->
+    </bean> 
+    
+    <!-- 定义核心调度器 -->
+    <bean id="scheduler" class="org.springframework.scheduling.quartz.SchedulerFactoryBean">
+      <property name="triggers">
+      	<list>
+      		<ref bean="cornTriggerTest1"/>
+      		<ref bean="cornTriggerTest2"/>
+      	</list>
+        
+      </property>
+    </bean>
+    <!-- 
+    <import resource="applicationContext-shiro.xml"/>
+     -->
 </beans>

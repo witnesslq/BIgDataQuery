@@ -54,14 +54,6 @@
         <package name="cn.edu.bupt.springmvc.web.enums"/>
     </typeAliases>
 
-    <!--
-    plugins在配置文件中的位置必须符合要求，否则会报错，顺序如下:
-    properties?, settings?,
-    typeAliases?, typeHandlers?,
-    objectFactory?,objectWrapperFactory?,
-    plugins?,
-    environments?, databaseIdProvider?, mappers?
-    -->
     <plugins>
         <!-- com.github.pagehelper为PageHelper类所在包名 -->
         <plugin interceptor="com.github.pagehelper.PageHelper">

@@ -14,7 +14,17 @@
 
     <!-- 会自动注册DefaultAnnotationHandlerMapping与AnnotationMethodHandlerAdapter 两个bean,是spring MVC为@Controllers分发请求所必须的 -->
     <!-- 指定自己定义的validator -->
-    <mvc:annotation-driven validator="validator"/>
+    <mvc:annotation-driven validator="validator">
+    	<mvc:message-converters>
+    		<bean class="org.springframework.http.converter.json.MappingJacksonHttpMessageConverter">
+    			<property name="objectMapper" ref="customObjectMapper"></property>
+    		</bean>
+    	</mvc:message-converters>
+    </mvc:annotation-driven>
+
+
+	<!-- 设置自定义的json解析 为了 设置解析 date数据 -->
+	<bean id="customObjectMapper" class="cn.edu.bupt.springmvc.core.feature.jsonConverter.CustomObjectMapper"></bean>
 
     <!-- 设置freeMarker的配置文件路径 -->
     <bean id="freemarkerConfiguration"
@@ -46,6 +56,7 @@
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
+        <bean class="cn.edu.bupt.springmvc.web.interceptors.AllowRegionInterceptor"/>
     </mvc:interceptors>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
@@ -95,13 +106,18 @@
         <property name="maxInMemorySize" value="40960"/>
     </bean>
 
+
+
+
+	<!-- 打开注释即可 开启shiro -->
     <!-- 启用shrio授权注解拦截方式 -->
-    <aop:config proxy-target-class="true"></aop:config>
+	<aop:config proxy-target-class="true"></aop:config>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
     </bean>
     
 	<!-- 默认首页 -->
-	<mvc:view-controller path="/" view-name="redirect:rest/index"/>
-	
+	<mvc:view-controller path="/" view-name="redirect:/index"/>
+
+    <mvc:resources mapping="/images/**" location="/images/" />
 </beans>
