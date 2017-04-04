@@ -42,23 +42,28 @@
         <!--对应数据库表名 -->
         <!-- schema即为数据库名 tableName为对应的数据库表 domainObjectName是要生成的实体类 enable*ByExample
                 是否生成 example类   -->
-        <!--<table schema="${jdbc.schema}" tableName="user"-->
-               <!--domainObjectName="User" enableCountByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true">-->
-        <!--</table>-->
-        <!--<table schema="${jdbc.schema}" tableName="permission"-->
-               <!--domainObjectName="Permission" enableCountByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true">-->
-        <!--</table>-->
-        <!--<table schema="${jdbc.schema}" tableName="role"-->
-               <!--domainObjectName="Role" enableCountByExample="true"-->
-               <!--enableDeleteByExample="true" enableSelectByExample="true"-->
-               <!--enableUpdateByExample="true">-->
-        <!--</table>-->
-        <table schema="${jdbc.schema}" tableName="country"
-               domainObjectName="Country" enableCountByExample="true"
+        <table schema="${jdbc.schema}" tableName="data_source"
+               domainObjectName="DataSource" enableCountByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true">
+        </table>
+        <table schema="${jdbc.schema}" tableName="folder_table"
+               domainObjectName="FolderTable" enableCountByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true">
+        </table>
+        <table schema="${jdbc.schema}" tableName="relational_database_info"
+               domainObjectName="RelationalDatabaseInfo" enableCountByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true">
+        </table>
+        <table schema="${jdbc.schema}" tableName="work_table"
+               domainObjectName="WorkTable" enableCountByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true">
+        </table>
+        <table schema="${jdbc.schema}" tableName="work_table_log"
+               domainObjectName="WorkTableLog" enableCountByExample="true"
                enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true">
         </table>
