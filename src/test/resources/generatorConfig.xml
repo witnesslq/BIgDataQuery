@@ -67,5 +67,10 @@
                enableDeleteByExample="true" enableSelectByExample="true"
                enableUpdateByExample="true">
         </table>
+        <table schema="${jdbc.schema}" tableName="sync_task"
+               domainObjectName="SyncTask" enableCountByExample="true"
+               enableDeleteByExample="true" enableSelectByExample="true"
+               enableUpdateByExample="true">
+        </table>
     </context>
 </generatorConfiguration>

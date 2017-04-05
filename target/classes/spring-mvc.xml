@@ -56,7 +56,7 @@
 
     <mvc:interceptors>
         <bean class="org.springframework.web.servlet.i18n.LocaleChangeInterceptor"/>
-        <bean class="cn.edu.bupt.springmvc.web.interceptors.AllowRegionInterceptor"/>
+        <bean class="cn.edu.bupt.springmvc.core.feature.interceptor.AllowRegionInterceptor"/>
     </mvc:interceptors>
 
     <bean id="localeResolver" class="org.springframework.web.servlet.i18n.CookieLocaleResolver">
@@ -111,10 +111,10 @@
 
 	<!-- 打开注释即可 开启shiro -->
     <!-- 启用shrio授权注解拦截方式 -->
-	<aop:config proxy-target-class="true"></aop:config>
+	<!-- <aop:config proxy-target-class="true"></aop:config>
     <bean class="org.apache.shiro.spring.security.interceptor.AuthorizationAttributeSourceAdvisor">
         <property name="securityManager" ref="securityManager"/>
-    </bean>
+    </bean> -->
     
 	<!-- 默认首页 -->
 	<mvc:view-controller path="/" view-name="redirect:/index"/>
