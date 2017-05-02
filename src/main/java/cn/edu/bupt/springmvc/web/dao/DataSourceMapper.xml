@@ -1,0 +1,276 @@
+<?xml version="1.0" encoding="UTF-8" ?>
+<!DOCTYPE mapper PUBLIC "-//mybatis.org//DTD Mapper 3.0//EN" "http://mybatis.org/dtd/mybatis-3-mapper.dtd" >
+<mapper namespace="cn.edu.bupt.springmvc.web.dao.DataSourceMapper" >
+  <resultMap id="BaseResultMap" type="cn.edu.bupt.springmvc.web.model.DataSource" >
+    <id column="ID" property="id" jdbcType="INTEGER" />
+    <result column="Name" property="name" jdbcType="VARCHAR" />
+    <result column="is_deleted" property="isDeleted" jdbcType="BIT" />
+    <result column="based_table_type" property="basedTableType" jdbcType="VARCHAR" />
+    <result column="table_names" property="tableNames" jdbcType="VARCHAR" />
+    <result column="data_id" property="dataId" jdbcType="INTEGER" />
+    <result column="createor_id" property="createorId" jdbcType="INTEGER" />
+    <result column="create_time" property="createTime" jdbcType="DATE" />
+    <result column="tags" property="tags" jdbcType="VARCHAR" />
+  </resultMap>
+  <sql id="Example_Where_Clause" >
+    <where >
+      <foreach collection="oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Update_By_Example_Where_Clause" >
+    <where >
+      <foreach collection="example.oredCriteria" item="criteria" separator="or" >
+        <if test="criteria.valid" >
+          <trim prefix="(" suffix=")" prefixOverrides="and" >
+            <foreach collection="criteria.criteria" item="criterion" >
+              <choose >
+                <when test="criterion.noValue" >
+                  and ${criterion.condition}
+                </when>
+                <when test="criterion.singleValue" >
+                  and ${criterion.condition} #{criterion.value}
+                </when>
+                <when test="criterion.betweenValue" >
+                  and ${criterion.condition} #{criterion.value} and #{criterion.secondValue}
+                </when>
+                <when test="criterion.listValue" >
+                  and ${criterion.condition}
+                  <foreach collection="criterion.value" item="listItem" open="(" close=")" separator="," >
+                    #{listItem}
+                  </foreach>
+                </when>
+              </choose>
+            </foreach>
+          </trim>
+        </if>
+      </foreach>
+    </where>
+  </sql>
+  <sql id="Base_Column_List" >
+    ID, Name, is_deleted, based_table_type, table_names, data_id, createor_id, create_time, 
+    tags
+  </sql>
+  <select id="selectByExample" resultMap="BaseResultMap" parameterType="cn.edu.bupt.springmvc.web.model.DataSourceExample" >
+    select
+    <if test="distinct" >
+      distinct
+    </if>
+    <include refid="Base_Column_List" />
+    from data_source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+    <if test="orderByClause != null" >
+      order by ${orderByClause}
+    </if>
+  </select>
+  <select id="selectByPrimaryKey" resultMap="BaseResultMap" parameterType="java.lang.Integer" >
+    select 
+    <include refid="Base_Column_List" />
+    from data_source
+    where ID = #{id,jdbcType=INTEGER}
+  </select>
+  <delete id="deleteByPrimaryKey" parameterType="java.lang.Integer" >
+    delete from data_source
+    where ID = #{id,jdbcType=INTEGER}
+  </delete>
+  <delete id="deleteByExample" parameterType="cn.edu.bupt.springmvc.web.model.DataSourceExample" >
+    delete from data_source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </delete>
+  <insert id="insert" parameterType="cn.edu.bupt.springmvc.web.model.DataSource" >
+    insert into data_source (ID, Name, is_deleted, 
+      based_table_type, table_names, data_id, 
+      createor_id, create_time, tags
+      )
+    values (#{id,jdbcType=INTEGER}, #{name,jdbcType=VARCHAR}, #{isDeleted,jdbcType=BIT}, 
+      #{basedTableType,jdbcType=VARCHAR}, #{tableNames,jdbcType=VARCHAR}, #{dataId,jdbcType=INTEGER}, 
+      #{createorId,jdbcType=INTEGER}, #{createTime,jdbcType=DATE}, #{tags,jdbcType=VARCHAR}
+      )
+  </insert>
+  <insert id="insertSelective" parameterType="cn.edu.bupt.springmvc.web.model.DataSource" >
+    insert into data_source
+    <trim prefix="(" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        ID,
+      </if>
+      <if test="name != null" >
+        Name,
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted,
+      </if>
+      <if test="basedTableType != null" >
+        based_table_type,
+      </if>
+      <if test="tableNames != null" >
+        table_names,
+      </if>
+      <if test="dataId != null" >
+        data_id,
+      </if>
+      <if test="createorId != null" >
+        createor_id,
+      </if>
+      <if test="createTime != null" >
+        create_time,
+      </if>
+      <if test="tags != null" >
+        tags,
+      </if>
+    </trim>
+    <trim prefix="values (" suffix=")" suffixOverrides="," >
+      <if test="id != null" >
+        #{id,jdbcType=INTEGER},
+      </if>
+      <if test="name != null" >
+        #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="basedTableType != null" >
+        #{basedTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="tableNames != null" >
+        #{tableNames,jdbcType=VARCHAR},
+      </if>
+      <if test="dataId != null" >
+        #{dataId,jdbcType=INTEGER},
+      </if>
+      <if test="createorId != null" >
+        #{createorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        #{createTime,jdbcType=DATE},
+      </if>
+      <if test="tags != null" >
+        #{tags,jdbcType=VARCHAR},
+      </if>
+    </trim>
+  </insert>
+  <select id="countByExample" parameterType="cn.edu.bupt.springmvc.web.model.DataSourceExample" resultType="java.lang.Integer" >
+    select count(*) from data_source
+    <if test="_parameter != null" >
+      <include refid="Example_Where_Clause" />
+    </if>
+  </select>
+  <update id="updateByExampleSelective" parameterType="map" >
+    update data_source
+    <set >
+      <if test="record.id != null" >
+        ID = #{record.id,jdbcType=INTEGER},
+      </if>
+      <if test="record.name != null" >
+        Name = #{record.name,jdbcType=VARCHAR},
+      </if>
+      <if test="record.isDeleted != null" >
+        is_deleted = #{record.isDeleted,jdbcType=BIT},
+      </if>
+      <if test="record.basedTableType != null" >
+        based_table_type = #{record.basedTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="record.tableNames != null" >
+        table_names = #{record.tableNames,jdbcType=VARCHAR},
+      </if>
+      <if test="record.dataId != null" >
+        data_id = #{record.dataId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createorId != null" >
+        createor_id = #{record.createorId,jdbcType=INTEGER},
+      </if>
+      <if test="record.createTime != null" >
+        create_time = #{record.createTime,jdbcType=DATE},
+      </if>
+      <if test="record.tags != null" >
+        tags = #{record.tags,jdbcType=VARCHAR},
+      </if>
+    </set>
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByExample" parameterType="map" >
+    update data_source
+    set ID = #{record.id,jdbcType=INTEGER},
+      Name = #{record.name,jdbcType=VARCHAR},
+      is_deleted = #{record.isDeleted,jdbcType=BIT},
+      based_table_type = #{record.basedTableType,jdbcType=VARCHAR},
+      table_names = #{record.tableNames,jdbcType=VARCHAR},
+      data_id = #{record.dataId,jdbcType=INTEGER},
+      createor_id = #{record.createorId,jdbcType=INTEGER},
+      create_time = #{record.createTime,jdbcType=DATE},
+      tags = #{record.tags,jdbcType=VARCHAR}
+    <if test="_parameter != null" >
+      <include refid="Update_By_Example_Where_Clause" />
+    </if>
+  </update>
+  <update id="updateByPrimaryKeySelective" parameterType="cn.edu.bupt.springmvc.web.model.DataSource" >
+    update data_source
+    <set >
+      <if test="name != null" >
+        Name = #{name,jdbcType=VARCHAR},
+      </if>
+      <if test="isDeleted != null" >
+        is_deleted = #{isDeleted,jdbcType=BIT},
+      </if>
+      <if test="basedTableType != null" >
+        based_table_type = #{basedTableType,jdbcType=VARCHAR},
+      </if>
+      <if test="tableNames != null" >
+        table_names = #{tableNames,jdbcType=VARCHAR},
+      </if>
+      <if test="dataId != null" >
+        data_id = #{dataId,jdbcType=INTEGER},
+      </if>
+      <if test="createorId != null" >
+        createor_id = #{createorId,jdbcType=INTEGER},
+      </if>
+      <if test="createTime != null" >
+        create_time = #{createTime,jdbcType=DATE},
+      </if>
+      <if test="tags != null" >
+        tags = #{tags,jdbcType=VARCHAR},
+      </if>
+    </set>
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+  <update id="updateByPrimaryKey" parameterType="cn.edu.bupt.springmvc.web.model.DataSource" >
+    update data_source
+    set Name = #{name,jdbcType=VARCHAR},
+      is_deleted = #{isDeleted,jdbcType=BIT},
+      based_table_type = #{basedTableType,jdbcType=VARCHAR},
+      table_names = #{tableNames,jdbcType=VARCHAR},
+      data_id = #{dataId,jdbcType=INTEGER},
+      createor_id = #{createorId,jdbcType=INTEGER},
+      create_time = #{createTime,jdbcType=DATE},
+      tags = #{tags,jdbcType=VARCHAR}
+    where ID = #{id,jdbcType=INTEGER}
+  </update>
+</mapper>
